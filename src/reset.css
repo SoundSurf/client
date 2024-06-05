@@ -11,10 +11,12 @@
 }
 
 html {
+    font-size: 62.5%; /* 1rem = 10px 설정 (기본 브라우저 폰트 크기의 62.5% = 10px) */
     line-height: 1.5;
     -webkit-text-size-adjust: 100%; /* 텍스트 크기 조정 비율을 100%로 설정 */
     -webkit-tap-highlight-color: transparent; /* 클릭할 때 하이라이트 제거 */
     scroll-behavior: smooth; /* 스크롤 행동을 부드럽게 설정 */
+    height: 100%; /* html 요소 높이 설정 */
 }
 
 body {
@@ -22,6 +24,13 @@ body {
     font-family: system-ui, sans-serif; /* 시스템 기본 글꼴 설정 */
     line-height: 1.5;
     -webkit-font-smoothing: antialiased; /* 글꼴 안티앨리어싱 활성화 */
+    height: 100%; /* body 요소 높이 설정 */
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* root 요소가 전체 화면을 차지하도록 설정 */
 }
 
 img,
@@ -76,26 +85,4 @@ p {
 code,
 pre {
     font-family: 'Fira Code', monospace; /* 코드 블록에 모노스페이스 글꼴 적용 */
-}
-
-/* 추가적인 글로벌 스타일링 */
-:root {
-    --main-bg-color: #ffffff;
-    --main-text-color: #333333;
-    --main-link-color: #007acc;
-}
-
-body {
-    background-color: var(--main-bg-color);
-    color: var(--main-text-color);
-}
-
-a {
-    color: var(--main-link-color);
-}
-
-/* 웹 접근성을 위한 포커스 스타일 */
-:focus {
-    outline: 2px dashed var(--main-link-color);
-    outline-offset: 2px;
 }
