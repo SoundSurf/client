@@ -1,0 +1,101 @@
+/* Modern CSS Reset */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* 모든 요소에 박스 모델을 보더 박스로 설정 */
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+}
+
+html {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%; /* 텍스트 크기 조정 비율을 100%로 설정 */
+    -webkit-tap-highlight-color: transparent; /* 클릭할 때 하이라이트 제거 */
+    scroll-behavior: smooth; /* 스크롤 행동을 부드럽게 설정 */
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif; /* 시스템 기본 글꼴 설정 */
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased; /* 글꼴 안티앨리어싱 활성화 */
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit; /* 폼 요소들이 부모의 폰트를 상속받도록 설정 */
+}
+
+button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    -webkit-appearance: none; /* 웹킷 브라우저에서 기본 버튼 스타일 제거 */
+}
+
+a {
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+    color: inherit; /* 링크의 기본 색상 제거 */
+}
+
+ul,
+ol {
+    list-style: none; /* 리스트 스타일 제거 */
+}
+
+table {
+    border-collapse: collapse; /* 테이블의 셀 보더를 겹치도록 설정 */
+    width: 100%; /* 테이블 너비를 100%로 설정 */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0; /* 제목과 단락의 기본 마진 제거 */
+}
+
+code,
+pre {
+    font-family: 'Fira Code', monospace; /* 코드 블록에 모노스페이스 글꼴 적용 */
+}
+
+/* 추가적인 글로벌 스타일링 */
+:root {
+    --main-bg-color: #ffffff;
+    --main-text-color: #333333;
+    --main-link-color: #007acc;
+}
+
+body {
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+}
+
+a {
+    color: var(--main-link-color);
+}
+
+/* 웹 접근성을 위한 포커스 스타일 */
+:focus {
+    outline: 2px dashed var(--main-link-color);
+    outline-offset: 2px;
+}
