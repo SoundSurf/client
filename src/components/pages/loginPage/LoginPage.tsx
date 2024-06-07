@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useSignIn } from "@/apis/queries/userQueries.ts";
 import { USER_REGEX } from "@/constants/regex.ts";
+import ROUTES from "@/constants/routes.ts";
 import { SignInData } from "@/ssTypes/sign/internal/signInternalTypes.ts";
 import * as S from "./LoginPage.styles.ts";
 
@@ -22,7 +24,12 @@ const LoginPage = () => {
     formState: { errors, isValid },
   } = useForm<SignInData>({ mode: "onChange" });
 
+  const navigate = useNavigate();
   const { signIn } = useSignIn();
+
+  const navigateToSignupPage = () => {
+    navigate(ROUTES.signup);
+  };
 
   const onSubmit = handleSubmit((data) => {
     signIn(data);
@@ -73,7 +80,9 @@ const LoginPage = () => {
         </form>
         <S.SignUpText>
           {TEXTS.noAccount}
-          <S.SignUpAnchor>{TEXTS.signUp}</S.SignUpAnchor>
+          <S.SignUpAnchor onClick={navigateToSignupPage}>
+            {TEXTS.signUp}
+          </S.SignUpAnchor>
         </S.SignUpText>
       </div>
     </S.LoginPageWrapper>
