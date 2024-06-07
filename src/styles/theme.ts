@@ -27,6 +27,7 @@ const theme: DefaultTheme = {
     body_12px_regular: font({ size: 1.2, weight: 400 }),
     body_14px_light: font({ size: 1.4, weight: 300 }),
     body_20px_semibold: font({ size: 2.0, weight: 600 }),
+    sub_14px_regular: font({ size: 1.4, weight: 400 }),
   },
 
   zIndex: {
