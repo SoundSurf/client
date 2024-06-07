@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
@@ -15,11 +16,13 @@ const App = () => {
       <GlobalStyle />
       <BrowserRouter>
         <TopLayout>
-          <Routes>
-            <Route path={ROUTES.home} element={<MainPage />} />
-            <Route path={ROUTES.login} element={<LoginPage />} />
-            <Route path={ROUTES.signup} element={<SignupPage />} />
-          </Routes>
+          <Suspense fallback={<div>loading....</div>}>
+            <Routes>
+              <Route path={ROUTES.home} element={<MainPage />} />
+              <Route path={ROUTES.login} element={<LoginPage />} />
+              <Route path={ROUTES.signup} element={<SignupPage />} />
+            </Routes>
+          </Suspense>
         </TopLayout>
       </BrowserRouter>
       <Toaster />
