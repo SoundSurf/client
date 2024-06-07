@@ -1,8 +1,3 @@
-export type SignInData = {
-  email: string;
-  password: string;
-};
-
 export type User = {
   userId: number;
   userEmail: string;
@@ -10,4 +5,13 @@ export type User = {
   newUser: boolean;
   carId: number;
   profileId: number;
+};
+
+export type SignInData = {
+  email: string;
+  password: string;
+};
+
+export type SignUpData = SignInData & {
+  rePassword: string;
 };
