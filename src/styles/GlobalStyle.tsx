@@ -5,6 +5,22 @@ const GlobalStyle = createGlobalStyle`
   html {
     box-sizing: border-box
   }
+  
+  input {
+    border: none;
+    border-radius: .6rem;
+  }
+  
+  button {
+    border-radius: .6rem;
+  }
+  
+  a {
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
 `;
 
 export default GlobalStyle;
