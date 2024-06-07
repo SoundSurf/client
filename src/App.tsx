@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import TopLayout from "@/components/_common/layoutComponents/topLayout/TopLayout.tsx";
@@ -19,6 +20,7 @@ const App = () => {
           </Routes>
         </TopLayout>
       </BrowserRouter>
+      <Toaster />
     </ThemeProvider>
   );
 };
