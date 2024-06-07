@@ -56,7 +56,8 @@ module.exports = {
           'order': 'asc'
         }
       }
-    ]
+    ],
+    'import/no-unresolved': 'off'
   },
   settings: {
     'import/resolver': {
