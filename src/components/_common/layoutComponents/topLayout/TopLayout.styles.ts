@@ -4,7 +4,7 @@ export const EntireLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center content vertically */
+  justify-content: center;
 
   box-sizing: border-box;
   width: 100vw;
@@ -26,7 +26,7 @@ export const MainLayout = styled.div`
 
   color: ${({ theme }) => theme.colors.grayScale1};
 
-  background-color: ${({ theme }) => theme.colors.backGroundBlack};
+  background-color: #4b4b4b;
 
   @media (max-width: 1024px) {
     width: 75%;
@@ -41,10 +41,10 @@ export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
   box-sizing: border-box;
-  width: 100%;
-  height: 100%; /* Make MainContent fill the remaining height */
-  padding: 10px;
+  width: 809px;
+  height: 100%;
+
+  background-color: ${({ theme }) => theme.colors.backGroundBlack};
 `;

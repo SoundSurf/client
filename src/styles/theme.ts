@@ -18,6 +18,7 @@ const theme: DefaultTheme = {
     purpleDarkest: "#33093D",
     blue: "#6A9BE3",
     alertRed: "#E13348",
+    menubarBackgroundBlack60: "rgba(13, 13, 15, 0.6)",
   },
 
   fonts: {

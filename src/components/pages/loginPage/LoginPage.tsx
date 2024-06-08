@@ -40,7 +40,6 @@ const LoginPage = () => {
       <S.LoginPic>main</S.LoginPic>
 
       <div>
-        <S.LoginMainText>{TEXTS.login}</S.LoginMainText>
         <form onSubmit={onSubmit}>
           <S.LoginInput
             hasError={!!errors.email}

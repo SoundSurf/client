@@ -10,7 +10,7 @@ export const LoginPageWrapper = styled.div`
 export const LoginPic = styled.div`
   width: 25.6rem;
   height: 14.7rem;
-  margin-bottom: 2rem;
+  margin-bottom: 5.2rem;
   background: ${({ theme }) => theme.colors.grayScale4};
 `;
 
