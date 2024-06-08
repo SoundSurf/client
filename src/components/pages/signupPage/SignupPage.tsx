@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useSignIn } from "@/apis/queries/userQueries.ts";
+import { useSignUp } from "@/apis/queries/userQueries.ts";
 import {
   AuthInputErrorText,
   LoginBtn,
@@ -18,10 +18,10 @@ const SignupPage = () => {
     formState: { errors, isValid },
   } = useForm<SignUpData>({ mode: "onChange" });
 
-  const { signIn } = useSignIn();
+  const { signUp } = useSignUp();
 
   const onSubmit = handleSubmit((data) => {
-    signIn(data);
+    signUp(data);
   });
 
   const password = watch("password");
