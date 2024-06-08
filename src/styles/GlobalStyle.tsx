@@ -21,6 +21,11 @@ const GlobalStyle = createGlobalStyle`
       text-decoration: underline;
     }
   }
+  
+  hr {
+    border: none;
+    border-radius: .5rem;
+  }
 `;
 
 export default GlobalStyle;

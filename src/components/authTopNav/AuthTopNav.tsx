@@ -9,7 +9,7 @@ const Nav = styled.nav`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 6.4rem 3.1rem 2rem 3.1rem;
+  padding: 2.4rem 3.1rem 2rem 3.1rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayScale9};
   margin-bottom: 8rem;
 `;

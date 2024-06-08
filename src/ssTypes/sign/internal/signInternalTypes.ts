@@ -14,4 +14,5 @@ export type SignInData = {
 
 export type SignUpData = SignInData & {
   rePassword: string;
+  terms: boolean;
 };
