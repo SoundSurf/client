@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { postSignIn, postSignUp } from "@/apis/userApis/userApis.ts";
 import ROUTES from "@/constants/routes.ts";
 import { SignInParam } from "@/ssTypes/sign/external/signExternalTypes.ts";
+import useUserStore from "@/store/useUserStore.ts";
 
 export const useSignIn = (): { signIn: (body: SignInParam) => void } => {
   const navigate = useNavigate();
@@ -45,4 +46,18 @@ export const useSignUp = (): { signUp: (body: SignInParam) => void } => {
   return {
     signUp: mutate,
   };
+};
+
+export const useLogout = () => {
+  const navigate = useNavigate();
+  const resetUser = useUserStore((state) => state.resetUser);
+
+  const logout = () => {
+    localStorage.removeItem("userToken");
+    resetUser();
+    toast.success("로그아웃 성공!");
+    navigate(ROUTES.login);
+  };
+
+  return { logout };
 };
