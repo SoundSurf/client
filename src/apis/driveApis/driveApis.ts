@@ -15,3 +15,29 @@ export const getRecommendations = async (
   const { data } = await clientInstance.get(url);
   return data;
 };
+
+export const getPrevTracks = async (
+  genreId: number | "all",
+): Promise<RecommendationRes> => {
+  let url = "";
+  if (genreId === "all") {
+    url = `/track/previous?genres`;
+  } else {
+    url = `/track/previous??genres=${genreId}`;
+  }
+  const { data } = await clientInstance.get(url);
+  return data;
+};
+
+export const getNextTracks = async (
+  genreId: number | "all",
+): Promise<RecommendationRes> => {
+  let url = "";
+  if (genreId === "all") {
+    url = `/track/following?genres`;
+  } else {
+    url = `/track/following?genres=${genreId}`;
+  }
+  const { data } = await clientInstance.get(url);
+  return data;
+};
