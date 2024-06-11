@@ -11,6 +11,10 @@ export const EntireLayout = styled.div`
   height: 100vh;
 
   background-color: #4b4b4b;
+
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+  }
 `;
 
 export const MainLayout = styled.div`
@@ -20,20 +24,23 @@ export const MainLayout = styled.div`
   justify-content: center;
 
   box-sizing: border-box;
-  width: 100%;
-  margin: 0; /* Remove any margin */
-  padding: 0; /* Remove any padding */
+  width: 25%;
+  max-width: 430px;
+  margin: 0;
+  padding: 0;
 
   color: ${({ theme }) => theme.colors.grayScale1};
 
-  background-color: #4b4b4b;
+  background-color: black;
 
   @media (max-width: 1024px) {
-    width: 75%;
+    width: 40%;
+    max-width: 430px;
   }
 
   @media (max-width: 768px) {
     width: 100%;
+    max-width: 430px;
   }
 `;
 
@@ -41,9 +48,10 @@ export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   box-sizing: border-box;
-  width: 809px;
+  width: 100%;
   height: 100%;
 
   background-color: ${({ theme }) => theme.colors.backGroundBlack};
