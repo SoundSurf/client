@@ -5,15 +5,16 @@ import Stop from "@/assets/icons/playbutton_stop.svg?react";
 import PurplePlus from "@/assets/icons/purple_plus.svg?react";
 import Spotify from "@/assets/icons/spotify.svg?react";
 
-const MusicPlayer: React.FC = () => {
+type MusicPlayerProps = {
+  songUrl: string;
+};
+
+const MusicPlayer = ({ songUrl }: MusicPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
-
-  const audioUrl =
-    "https://p.scdn.co/mp3-preview/2d1f747410821bb0b878d9394d0d39c5b7894f2e?cid=7d22accf05754fcd950ee233b1e35fbb";
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -29,6 +30,13 @@ const MusicPlayer: React.FC = () => {
       };
     }
   }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+    }
+  }, [songUrl]);
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
@@ -90,7 +98,7 @@ const MusicPlayer: React.FC = () => {
 
   return (
     <PlayerContainer>
-      <audio ref={audioRef} src={audioUrl}></audio>
+      <audio ref={audioRef} src={songUrl}></audio>
 
       <ProgressBar
         ref={progressBarRef}
@@ -125,6 +133,7 @@ const PlayerContainer = styled.div`
   background: transparent;
   height: 100vh;
   color: white;
+  z-index: 2;
 `;
 
 const PlayButton = styled.button`
