@@ -43,7 +43,7 @@ export type AlbumSimple = {
   id: string;
   releaseDate: string;
   spotifyUrl: string;
-  genres: string;
+  genres: string[];
   rating: string;
   albumType: string;
   artists: Artist[];

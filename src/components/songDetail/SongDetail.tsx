@@ -38,20 +38,6 @@ const SongDetail = ({
     songSetter(songInfo);
   };
 
-  const allTracks = [
-    "Devil In A New Dress",
-    "Devil In A New Dress",
-    "Devil In A New Dress",
-    "Devil In A New Dress",
-    "Devil In A New Dress",
-  ]; // Example tracks
-
-  const similarAlbums = [
-    { title: "Devil In A New Dress", artist: "Kanye West", cover: albumUrl },
-    { title: "Devil In A New Dress", artist: "Kanye West", cover: albumUrl },
-    { title: "Devil In A New Dress", artist: "Kanye West", cover: albumUrl },
-  ];
-
   return (
     <Container>
       {/*<BackgroundHalfCircle src={albumUrl} />*/}
@@ -84,6 +70,14 @@ const SongDetail = ({
       <InfoItem>
         <Label>발매일</Label>
         <Value>{currSong.album?.releaseDate}</Value>
+      </InfoItem>
+      <InfoItem>
+        <Label>장르</Label>
+        <Value>
+          {albumInfo?.album.albumSimple.genres
+            .map((genre) => genre.toUpperCase())
+            .join(", ")}
+        </Value>
       </InfoItem>
 
       <InfoItem>

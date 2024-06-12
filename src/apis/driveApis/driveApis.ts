@@ -1,5 +1,4 @@
 import clientInstance from "@/apis/client.ts";
-import GENRES from "@/constants/genres.ts";
 import {
   AlbumInfoResponse,
   RecommendationRes,
@@ -25,27 +24,39 @@ export const getRecommendations = async (
 };
 
 export const getPrevTracks = async (
-  genreId: number | "all",
+  genreId: string[],
 ): Promise<RecommendationRes> => {
   let url = "";
-  if (genreId === "all") {
+
+  if (genreId[0] === "all") {
     url = `/track/previous?genres`;
   } else {
-    url = `/track/previous??genres=${genreId}`;
+    const genreParam = genreId.reduce(
+      (acc, curr) => (acc ? `${acc},${curr}` : curr),
+      "",
+    );
+    url = `/track/previous?genres=${genreParam}`;
   }
+
   const { data } = await clientInstance.get(url);
   return data;
 };
 
 export const getNextTracks = async (
-  genreId: number | "all",
+  genreId: string[],
 ): Promise<RecommendationRes> => {
   let url = "";
-  if (genreId === "all") {
+
+  if (genreId[0] === "all") {
     url = `/track/following?genres`;
   } else {
-    url = `/track/following?genres=${genreId}`;
+    const genreParam = genreId.reduce(
+      (acc, curr) => (acc ? `${acc},${curr}` : curr),
+      "",
+    );
+    url = `/track/following?genres=${genreParam}`;
   }
+
   const { data } = await clientInstance.get(url);
   return data;
 };
