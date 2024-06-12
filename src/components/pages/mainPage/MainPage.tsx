@@ -207,7 +207,10 @@ const MainPage = () => {
                   }
                 }}
               >
-                <SongDetail onClose={handleDetailToggle} />
+                <SongDetail
+                  songId={recommendations.nowSong.album.id}
+                  onClose={handleDetailToggle}
+                />
               </SongDetailWrapper>
             )}
           </AnimatePresence>
