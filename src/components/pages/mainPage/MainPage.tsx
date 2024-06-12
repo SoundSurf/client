@@ -148,7 +148,10 @@ const MainPage = () => {
             <NavButton onClick={handlePrev}>◀</NavButton>
             <NavButton onClick={handleNext}>▶</NavButton>
           </ButtonWrapper>
-          <MusicPlayer songUrl={recommendations.nowSong.previewUrl} />
+          <MusicPlayer
+            songInfo={recommendations.nowSong}
+            onNext={getNextTracks}
+          />
           <NowPlaying>
             <NowPlayingHeader>
               <DetailLeft>

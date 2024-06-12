@@ -1,20 +1,24 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import { Song } from "@/ssTypes/drive/driveTypes.ts";
 import Play from "@/assets/icons/playbutton_play.svg?react";
 import Stop from "@/assets/icons/playbutton_stop.svg?react";
 import PurplePlus from "@/assets/icons/purple_plus.svg?react";
 import Spotify from "@/assets/icons/spotify.svg?react";
 
 type MusicPlayerProps = {
-  songUrl: string;
+  songInfo: Song;
+  onNext: () => void;
 };
 
-const MusicPlayer = ({ songUrl }: MusicPlayerProps) => {
+const MusicPlayer = ({ songInfo, onNext }: MusicPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+
+  const { previewUrl: songUrl, spotifyUrl } = songInfo;
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -34,9 +38,24 @@ const MusicPlayer = ({ songUrl }: MusicPlayerProps) => {
   useEffect(() => {
     const audio = audioRef.current;
     if (audio) {
-      audio.pause();
+      const handleEnded = () => {
+        onNext();
+      };
+
+      audio.addEventListener("ended", handleEnded);
+
+      return () => {
+        audio.removeEventListener("ended", handleEnded);
+      };
     }
-  }, [songUrl]);
+  }, [onNext]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio && isPlaying) {
+      audio.play();
+    }
+  }, [songUrl, isPlaying]);
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
@@ -109,7 +128,9 @@ const MusicPlayer = ({ songUrl }: MusicPlayerProps) => {
         <Progress progress={progress} />
       </ProgressBar>
       <ControlPannel>
-        <Spotify />
+        <a href={spotifyUrl} target="_blank">
+          <Spotify />
+        </a>
         <button onClick={togglePlayPause}>
           {isPlaying ? <Stop /> : <Play />}
         </button>
@@ -174,6 +195,10 @@ const ControlPannel = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 const CircleButton = styled.div`
@@ -185,4 +210,9 @@ const CircleButton = styled.div`
   border-radius: 50%;
   background-color: rgba(240, 240, 245, 0.3);
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 35px;
+    height: 35px;
+  }
 `;
