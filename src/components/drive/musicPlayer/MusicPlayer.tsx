@@ -52,10 +52,21 @@ const MusicPlayer = ({ songInfo, onNext }: MusicPlayerProps) => {
 
   useEffect(() => {
     const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+
+      if (isPlaying) {
+        audio.play();
+      }
+    }
+  }, [songUrl]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
     if (audio && isPlaying) {
       audio.play();
     }
-  }, [songUrl, isPlaying]);
+  }, [isPlaying]);
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
