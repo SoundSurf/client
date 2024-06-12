@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import {
   getRecommendations,
   getPrevTracks,
   getNextTracks,
+  getAlbumInfo,
 } from "@/apis/driveApis/driveApis.ts";
 import { RecommendationRes } from "@/ssTypes/drive/driveTypes.ts";
 
@@ -40,5 +41,16 @@ export const useRecommendations = (genreId: number | "all") => {
     recommendations,
     getPrevTracks: prevTracksMutation.mutate,
     getNextTracks: nextTracksMutation.mutate,
+  };
+};
+
+export const useAlbumInfo = (albumId: string) => {
+  const { data } = useSuspenseQuery({
+    queryKey: ["albumInfo", albumId],
+    queryFn: () => getAlbumInfo(albumId),
+  });
+
+  return {
+    data,
   };
 };
