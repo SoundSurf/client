@@ -508,7 +508,7 @@ const SongDetailWrapper = styled(motion.div)`
   width: 100%;
   height: 100%;
   background: #0d0d0f;
-  z-index: 2;
+  z-index: 120;
   cursor: grab;
 `;
 

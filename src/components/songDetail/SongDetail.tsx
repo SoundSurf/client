@@ -124,6 +124,7 @@ const Container = styled.div`
   background-color: #0d0d0f;
   color: white;
   padding: 1rem;
+  z-index: 105;
 `;
 
 const Header = styled.div`

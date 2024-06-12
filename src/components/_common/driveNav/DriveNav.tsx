@@ -8,7 +8,7 @@ const DriveNavWrapper = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding: 0 1.5rem 0 1.5rem;
-  z-index: 999;
+  z-index: 100;
 `;
 
 const NavRight = styled.div`
