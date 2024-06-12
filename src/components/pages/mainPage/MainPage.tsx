@@ -10,26 +10,25 @@ import { useRecommendations } from "@/apis/queries/driveQueries.ts";
 import DriveNav from "@/components/_common/driveNav/DriveNav.tsx";
 import MusicPlayer from "@/components/drive/musicPlayer/MusicPlayer.tsx";
 import SongDetail from "@/components/songDetail/SongDetail.tsx";
+import { NOIMAGE } from "@/constants/etc.ts";
 import UpperArrow from "@/assets/icons/upperarrow.svg?react";
 
 const MainPage = () => {
   const { recommendations, getPrevTracks, getNextTracks } =
     useRecommendations("all");
 
-  const [direction, setDirection] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(0);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const controls = useAnimation();
   const dragControls = useDragControls();
 
-  const mainAlbumImage =
-    recommendations?.nowSong?.album?.images[0] ||
-    "https://via.placeholder.com/500x500?text=No+Image";
+  const mainAlbumImage = recommendations?.nowSong?.album?.images[0] || NOIMAGE;
 
   useEffect(() => {
     controls.start("center");
   }, [recommendations, controls]);
 
-  const handleSwipe = (dir) => {
+  const handleSwipe = (dir: 1 | -1) => {
     setDirection(dir);
     if (dir > 0) {
       handlePrev();
@@ -53,7 +52,7 @@ const MainPage = () => {
   };
 
   const variants = {
-    enter: (direction) => ({
+    enter: (direction: 1 | -1) => ({
       x: direction > 0 ? 1000 : -1000,
       y: -200,
       opacity: 0,
@@ -69,7 +68,7 @@ const MainPage = () => {
       rotate: 0,
       transition: { type: "spring", stiffness: 300, damping: 30 },
     },
-    exit: (direction) => ({
+    exit: (direction: 1 | -1) => ({
       zIndex: 0,
       x: direction < 0 ? 1000 : -1000,
       y: -200,
@@ -110,7 +109,7 @@ const MainPage = () => {
               dragControls={dragControls}
               onPointerDown={(event) => dragControls.start(event)} // Start dragging on pointer down
               onDragStart={(event) => event.preventDefault()} // Prevent default behavior
-              onDragEnd={(event, info) => {
+              onDragEnd={(_, info) => {
                 if (info.offset.x < -5) {
                   handleSwipe(-1);
                 } else if (info.offset.x > 5) {
@@ -159,7 +158,7 @@ const MainPage = () => {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             drag="y"
             dragConstraints={{ top: 0, bottom: 0 }}
-            onDragEnd={(event, info) => {
+            onDragEnd={(_, info) => {
               if (info.offset.y < -5) {
                 handleDetailToggle();
               }
@@ -201,7 +200,7 @@ const MainPage = () => {
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 drag="y"
                 dragConstraints={{ top: 0, bottom: 0 }}
-                onDragEnd={(event, info) => {
+                onDragEnd={(_, info) => {
                   if (info.offset.y > 100) {
                     handleDetailToggle();
                   }

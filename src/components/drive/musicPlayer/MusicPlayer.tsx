@@ -157,21 +157,6 @@ const PlayerContainer = styled.div`
   z-index: 2;
 `;
 
-const PlayButton = styled.button`
-  background-color: #61dafb;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 1.5em;
-  cursor: pointer;
-  margin-bottom: 20px;
-
-  &:hover {
-    background-color: #21a1f1;
-  }
-`;
-
 const ProgressBar = styled.div<{ isDragging: boolean }>`
   width: 80%;
   height: ${(props) => (props.isDragging ? "10px" : "6px")};
