@@ -152,9 +152,21 @@ const MainPage = () => {
             songInfo={recommendations.nowSong}
             onNext={getNextTracks}
           />
-          <NowPlaying>
+          <NowPlaying
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            drag="y"
+            dragConstraints={{ top: 0, bottom: 0 }}
+            onDragEnd={(event, info) => {
+              if (info.offset.y < -5) {
+                handleDetailToggle();
+              }
+            }}
+          >
             <NowPlayingHeader>
-              <DetailLeft>
+              <DetailLeft onClick={handleDetailToggle}>
                 <UpperArrow />
                 <NowPlayingTitle>NOW PLAYING</NowPlayingTitle>
               </DetailLeft>
@@ -187,6 +199,13 @@ const MainPage = () => {
                 animate={{ y: 0 }}
                 exit={{ y: "100%" }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                drag="y"
+                dragConstraints={{ top: 0, bottom: 0 }}
+                onDragEnd={(event, info) => {
+                  if (info.offset.y > 100) {
+                    handleDetailToggle();
+                  }
+                }}
               >
                 <SongDetail onClose={handleDetailToggle} />
               </SongDetailWrapper>
@@ -399,7 +418,7 @@ export const NavButton = styled.button`
   }
 `;
 
-export const NowPlaying = styled.div`
+export const NowPlaying = styled(motion.div)`
   width: 100%;
   height: 59.6rem;
   background-color: #1d1e24;
@@ -479,14 +498,16 @@ export const TrackImage = styled.img`
 
 export const TrackDetails = styled.div``;
 
-export const SongDetailWrapper = styled(motion.div)`
-  position: fixed;
+const SongDetailWrapper = styled(motion.div)`
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  top: 0;
+  width: 100%;
+  height: 100%;
   background: #0d0d0f;
   z-index: 2;
+  cursor: grab;
 `;
 
 export const DetailLeft = styled.div`
@@ -494,6 +515,7 @@ export const DetailLeft = styled.div`
   justify-content: space-between;
   align-items: center;
   z-index: 2;
+  cursor: pointer;
 `;
 
 export const DetailTitle = styled(TrackTitle)`
