@@ -1,15 +1,23 @@
 import clientInstance from "@/apis/client.ts";
-import { AlbumInfoResponse, RecommendationRes } from "@/ssTypes/drive/driveTypes.ts";
+import GENRES from "@/constants/genres.ts";
+import {
+  AlbumInfoResponse,
+  RecommendationRes,
+} from "@/ssTypes/drive/driveTypes.ts";
 
 export const getRecommendations = async (
-  genreId: number | "all",
+  genreId: string[],
 ): Promise<RecommendationRes> => {
   let url = "";
 
-  if (genreId === "all") {
+  if (genreId[0] === "all") {
     url = `/spotify/recommendation?genres`;
   } else {
-    url = `/spotify/recommendation?genres=${genreId}`;
+    const genreParam = genreId.reduce(
+      (acc, curr) => (acc ? `${acc},${curr}` : curr),
+      "",
+    );
+    url = `/spotify/recommendation?genres=${genreParam}`;
   }
 
   const { data } = await clientInstance.get(url);

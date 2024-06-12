@@ -8,9 +8,9 @@ import {
 } from "@/apis/driveApis/driveApis.ts";
 import { RecommendationRes } from "@/ssTypes/drive/driveTypes.ts";
 
-export const useRecommendations = (genreId: number | "all") => {
+export const useRecommendations = (genreId: string[]) => {
   const { data: initialRecommendations } = useQuery({
-    queryKey: ["recommendations", genreId],
+    queryKey: ["recommendations", genreId.join("")],
     queryFn: () => getRecommendations(genreId),
   });
 

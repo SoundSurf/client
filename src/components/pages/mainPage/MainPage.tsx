@@ -9,22 +9,26 @@ import styled from "styled-components";
 import { useRecommendations } from "@/apis/queries/driveQueries.ts";
 import DriveNav from "@/components/_common/driveNav/DriveNav.tsx";
 import MusicPlayer from "@/components/drive/musicPlayer/MusicPlayer.tsx";
+import GenreSelection from "@/components/genreSelection/GenreSelection.tsx";
 import SongDetail from "@/components/songDetail/SongDetail.tsx";
 import { NOIMAGE } from "@/constants/etc.ts";
+import GENRES from "@/constants/genres.ts";
 import { RelatedSong, Song } from "@/ssTypes/drive/driveTypes.ts";
 import UpperArrow from "@/assets/icons/upperarrow.svg?react";
 
 const MainPage = () => {
-  const { recommendations, getPrevTracks, getNextTracks } =
-    useRecommendations("all");
-
   const [direction, setDirection] = useState<1 | 0 | -1>(0);
   const [currSong, setCurrSong] = useState<Song | null | RelatedSong>(null);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
+  const [isGenreVisible, setIsGenreVisible] = useState(false);
+  const [genres, setGenres] = useState<string[]>(["all"]);
+
+  const { recommendations, getPrevTracks, getNextTracks } =
+    useRecommendations(genres);
   const controls = useAnimation();
   const dragControls = useDragControls();
 
-  const mainAlbumImage = recommendations?.nowSong?.album?.images[0] || NOIMAGE;
+  const mainAlbumImage = currSong?.album?.images[0] || NOIMAGE;
 
   useEffect(() => {
     controls.start("center");
@@ -57,6 +61,10 @@ const MainPage = () => {
 
   const handleDetailToggle = () => {
     setIsDetailVisible(!isDetailVisible);
+  };
+
+  const handleGenreSelectionToggle = () => {
+    setIsGenreVisible(!isGenreVisible);
   };
 
   const variants = {
@@ -94,8 +102,28 @@ const MainPage = () => {
         <Content>
           <DriveNav />
           <TopBar>
-            <GenreButton>장르 선택</GenreButton>
+            <GenreButton onClick={handleGenreSelectionToggle}>
+              장르 선택
+            </GenreButton>
+            {genres.map((genreId) => {
+              if (genreId === "all") {
+                return <Genres>All</Genres>;
+              } else {
+                return <Genres>{GENRES[genreId]}</Genres>;
+              }
+            })}
           </TopBar>
+          {isGenreVisible && (
+            <GenreSelection
+              setGenre={setGenres}
+              closeFn={handleGenreSelectionToggle}
+              imageUrl={
+                currSong?.album?.images[0] ||
+                currSong?.images[0] ||
+                "https://via.placeholder.com/500x500?text=No+Image"
+              }
+            />
+          )}
           <AlbumWrapper>
             <BlurredAlbumCover
               src={
@@ -274,11 +302,12 @@ const Content = styled.div`
 
 export const TopBar = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
   padding: 1rem 0;
   margin: 1rem 0 1rem 0;
   z-index: 2;
+  height: 10rem;
 
   @media (max-width: 768px) {
     padding: 0.5rem 0;
@@ -294,6 +323,26 @@ export const GenreButton = styled.button`
   border-radius: 20px;
   cursor: pointer;
   z-index: 2;
+  margin-right: 1.6rem;
+
+  @media (max-width: 768px) {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.9rem;
+  }
+`;
+
+export const Genres = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(240, 240, 245, 0.1);
+  margin-right: 1.6rem;
+  min-width: 4rem;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  z-index: 2;
 
   @media (max-width: 768px) {
     padding: 0.3rem 0.7rem;
@@ -308,6 +357,7 @@ export const AlbumWrapper = styled.div`
   position: relative;
   z-index: 2;
   flex-direction: column;
+  margin-top: 5.6rem;
 
   @media (min-width: 768px) {
     flex-direction: row;

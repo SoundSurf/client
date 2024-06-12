@@ -9,6 +9,7 @@ const DriveNavWrapper = styled.nav`
   align-items: center;
   padding: 0 1.5rem 0 1.5rem;
   z-index: 100;
+  height: 20rem;
 `;
 
 const NavRight = styled.div`

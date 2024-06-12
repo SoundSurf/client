@@ -52,8 +52,6 @@ const SongDetail = ({
     { title: "Devil In A New Dress", artist: "Kanye West", cover: albumUrl },
   ];
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <Container>
       {/*<BackgroundHalfCircle src={albumUrl} />*/}
