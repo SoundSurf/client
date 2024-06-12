@@ -147,6 +147,7 @@ const MusicPlayer = ({ songInfo, onNext }: MusicPlayerProps) => {
         </button>
 
         <CircleButton>
+          <SavedCnt>30</SavedCnt>
           <PurplePlus />
         </CircleButton>
       </ControlPannel>
@@ -199,6 +200,7 @@ const ControlPannel = styled.div`
 
 const CircleButton = styled.div`
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   width: 40px;
@@ -211,4 +213,16 @@ const CircleButton = styled.div`
     width: 35px;
     height: 35px;
   }
+`;
+
+const SavedCnt = styled.div`
+  width: 2.5rem;
+  height: 1.8rem;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: -0.5rem;
+  right: -1rem;
+  background: #0d0d0f;
+  border-radius: 2rem;
 `;

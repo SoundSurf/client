@@ -1,6 +1,7 @@
 import clientInstance from "@/apis/client.ts";
 import {
   AlbumInfoResponse,
+  IsMusicSavedRes,
   RecommendationRes,
 } from "@/ssTypes/drive/driveTypes.ts";
 
@@ -67,6 +68,17 @@ export const getAlbumInfo = async (
   const { data } = await clientInstance.get("/spotify/album-info", {
     params: {
       albumId: albumId,
+    },
+  });
+  return data;
+};
+
+export const getIsMusicSaved = async (
+  musicId: string,
+): Promise<IsMusicSavedRes> => {
+  const { data } = await clientInstance.get("/profile/music/is-saved", {
+    params: {
+      musicId: musicId,
     },
   });
   return data;

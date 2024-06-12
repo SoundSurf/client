@@ -88,7 +88,7 @@ const SongDetail = ({
         </button>
       </InfoItem>
       <TrackList>
-        {albumInfo?.album?.songs.map((track, index) => (
+        {albumInfo?.album?.songs.slice(0, 3).map((track, index) => (
           <Track key={index}>
             <input
               type="checkbox"
@@ -150,33 +150,6 @@ const Header = styled.div`
   margin-bottom: 1rem;
 `;
 
-const DetailNav = styled.div`
-  width: 100%;
-  display: flex;
-  margin-bottom: 3rem;
-  justify-content: center;
-  align-items: center;
-`;
-
-const BackButton = styled.button`
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-`;
-
-const NowPlaying = styled.div`
-  margin-top: 1rem;
-  font-size: 1.8rem;
-  color: white;
-`;
-
-const TrackTitle = styled.h1`
-  font-size: 1.5rem;
-  margin: 0.5rem 0;
-`;
-
 const Artist = styled.p`
   font-size: 1rem;
   color: #a9abb8;
@@ -184,8 +157,8 @@ const Artist = styled.p`
 `;
 
 const AlbumCover = styled.img`
-  width: 24rem;
-  height: 24rem;
+  width: 18rem;
+  height: 18rem;
   object-fit: cover;
   margin-bottom: 1rem;
 `;
@@ -289,10 +262,41 @@ const AlbumArtist = styled.div`
   color: #a9abb8;
 `;
 
+const NowPlaying = styled.p`
+  font-size: 1.2rem;
+  color: white;
+  margin-left: 1rem;
+`;
+
+const TrackTitle = styled.h1`
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+  max-width: 250px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`;
+
 const DetailNavLeft = styled.div`
   display: flex;
   align-items: center;
   margin-right: 1rem;
+`;
+
+const BackButton = styled.button`
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+`;
+
+const DetailNav = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
 `;
 
 const BackgroundHalfCircle = styled.img`

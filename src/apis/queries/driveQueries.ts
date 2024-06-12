@@ -5,6 +5,7 @@ import {
   getPrevTracks,
   getNextTracks,
   getAlbumInfo,
+  getIsMusicSaved,
 } from "@/apis/driveApis/driveApis.ts";
 import { RecommendationRes } from "@/ssTypes/drive/driveTypes.ts";
 
@@ -48,6 +49,17 @@ export const useAlbumInfo = (albumId: string) => {
   const { data } = useQuery({
     queryKey: ["albumInfo", albumId],
     queryFn: () => getAlbumInfo(albumId),
+  });
+
+  return {
+    data,
+  };
+};
+
+export const useIsMusicSaved = (musicId: string) => {
+  const { data } = useQuery({
+    queryKey: ["isMusicSaved", musicId],
+    queryFn: () => getIsMusicSaved(musicId),
   });
 
   return {

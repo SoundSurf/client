@@ -76,3 +76,8 @@ export type AlbumInfoResponse = {
   };
   relatedSongs: RelatedSong[];
 };
+
+export type IsMusicSavedRes = {
+  count: number;
+  saved: boolean
+}
