@@ -17,7 +17,7 @@ const MainPage = () => {
   const { recommendations, getPrevTracks, getNextTracks } =
     useRecommendations("all");
 
-  const [direction, setDirection] = useState<1 | -1>(0);
+  const [direction, setDirection] = useState<1 | 0 | -1>(0);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const controls = useAnimation();
   const dragControls = useDragControls();
