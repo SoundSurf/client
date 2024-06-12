@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { useLogout } from "@/apis/queries/userQueries.ts";
 import Hamburger from "@/assets/icons/hamburger.svg?react";
 
 const StyledHamburgerIcon = styled(Hamburger)<{
@@ -50,10 +51,13 @@ type HamburgerBtnProps = {
 };
 
 const HamburgerBtn = ({ width, height, color }: HamburgerBtnProps) => {
+  const { logout } = useLogout();
   const [menuVisible, setMenuVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const toggleMenu = () => setMenuVisible(!menuVisible);
+  const toggleMenu = () => {
+    setMenuVisible(!menuVisible);
+  };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -90,7 +94,7 @@ const HamburgerBtn = ({ width, height, color }: HamburgerBtnProps) => {
             <a href="/settings">Settings</a>
           </li>
           <li>
-            <a href="/logout">Logout</a>
+            <button onClick={logout}>Logout</button>
           </li>
         </ul>
       </Menu>
