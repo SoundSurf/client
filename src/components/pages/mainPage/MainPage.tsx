@@ -11,6 +11,7 @@ import DriveNav from "@/components/_common/driveNav/DriveNav.tsx";
 import MusicPlayer from "@/components/drive/musicPlayer/MusicPlayer.tsx";
 import SongDetail from "@/components/songDetail/SongDetail.tsx";
 import { NOIMAGE } from "@/constants/etc.ts";
+import { RelatedSong, Song } from "@/ssTypes/drive/driveTypes.ts";
 import UpperArrow from "@/assets/icons/upperarrow.svg?react";
 
 const MainPage = () => {
@@ -18,6 +19,7 @@ const MainPage = () => {
     useRecommendations("all");
 
   const [direction, setDirection] = useState<1 | 0 | -1>(0);
+  const [currSong, setCurrSong] = useState<Song | null | RelatedSong>(null);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const controls = useAnimation();
   const dragControls = useDragControls();
@@ -27,6 +29,12 @@ const MainPage = () => {
   useEffect(() => {
     controls.start("center");
   }, [recommendations, controls]);
+
+  useEffect(() => {
+    if (recommendations) {
+      setCurrSong(recommendations.prevSong);
+    }
+  }, [recommendations]);
 
   const handleSwipe = (dir: 1 | -1) => {
     setDirection(dir);
@@ -82,7 +90,7 @@ const MainPage = () => {
   return (
     <MainWrapper>
       <BackgroundBlur style={{ backgroundImage: `url(${mainAlbumImage})` }} />
-      {recommendations && (
+      {recommendations && currSong && (
         <Content>
           <DriveNav />
           <TopBar>
@@ -98,7 +106,7 @@ const MainPage = () => {
               style={{ transform: "rotate(-15deg)", left: "-90px" }}
             />
             <motion.div
-              key={recommendations.nowSong?.id}
+              key={currSong?.id}
               custom={direction}
               variants={variants}
               initial="enter"
@@ -119,16 +127,17 @@ const MainPage = () => {
             >
               <AlbumCover
                 src={
-                  recommendations.nowSong?.album?.images[0] ||
+                  currSong?.album?.images[0] ||
+                  currSong?.images[0] ||
                   "https://via.placeholder.com/500x500?text=No+Image"
                 }
                 alt="Album Cover"
                 style={{ userSelect: "none" }}
               />
               <TrackInfo>
-                <TrackTitle>{recommendations.nowSong.name}</TrackTitle>
+                <TrackTitle>{currSong?.name}</TrackTitle>
                 <TrackArtist>
-                  {recommendations.nowSong.artists
+                  {currSong?.artists
                     .map((artist) => artist.artistName)
                     .join(", ")}
                 </TrackArtist>
@@ -147,10 +156,7 @@ const MainPage = () => {
             <NavButton onClick={handlePrev}>◀</NavButton>
             <NavButton onClick={handleNext}>▶</NavButton>
           </ButtonWrapper>
-          <MusicPlayer
-            songInfo={recommendations.nowSong}
-            onNext={getNextTracks}
-          />
+          <MusicPlayer songInfo={currSong} onNext={getNextTracks} />
           <NowPlaying
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -176,15 +182,16 @@ const MainPage = () => {
             <NowPlayingTrack>
               <TrackImage
                 src={
-                  recommendations.nowSong?.album?.images[0] ||
+                  currSong?.album?.images[0] ||
+                  currSong?.images[0] ||
                   "https://via.placeholder.com/500x500?text=No+Image"
                 }
                 alt="Album Cover"
               />
               <TrackDetails>
-                <DetailTitle>{recommendations.nowSong.name}</DetailTitle>
+                <DetailTitle>{currSong?.name}</DetailTitle>
                 <DetailArtist>
-                  {recommendations.nowSong.artists
+                  {currSong?.artists
                     .map((artist) => artist.artistName)
                     .join(", ")}
                 </DetailArtist>
@@ -207,8 +214,10 @@ const MainPage = () => {
                 }}
               >
                 <SongDetail
-                  songId={recommendations.nowSong.album.id}
+                  currSong={currSong}
+                  songId={currSong?.album?.id || currSong?.albumId}
                   onClose={handleDetailToggle}
+                  songSetter={setCurrSong}
                 />
               </SongDetailWrapper>
             )}

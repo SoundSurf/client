@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { Song } from "@/ssTypes/drive/driveTypes.ts";
+import { RelatedSong, Song } from "@/ssTypes/drive/driveTypes.ts";
 import Play from "@/assets/icons/playbutton_play.svg?react";
 import Stop from "@/assets/icons/playbutton_stop.svg?react";
 import PurplePlus from "@/assets/icons/purple_plus.svg?react";
 import Spotify from "@/assets/icons/spotify.svg?react";
 
 type MusicPlayerProps = {
-  songInfo: Song;
+  songInfo: Song | RelatedSong;
   onNext: () => void;
 };
 

@@ -45,7 +45,7 @@ export const useRecommendations = (genreId: number | "all") => {
 };
 
 export const useAlbumInfo = (albumId: string) => {
-  const { data } = useSuspenseQuery({
+  const { data } = useQuery({
     queryKey: ["albumInfo", albumId],
     queryFn: () => getAlbumInfo(albumId),
   });

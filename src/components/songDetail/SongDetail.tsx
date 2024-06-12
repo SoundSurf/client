@@ -1,21 +1,29 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import styled from "styled-components";
-import DownArrow from "@/assets/icons/downarrow.svg?react";
-import Spotify from "@/assets/icons/spotify.svg?react";
 import Check from "@/assets/icons/white_check_icon.svg?react";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 import { useAlbumInfo } from "@/apis/queries/driveQueries.ts";
 import { NOIMAGE } from "@/constants/etc.ts";
+import { RelatedSong, Song, SongInfo } from "@/ssTypes/drive/driveTypes.ts";
+import DownArrow from "@/assets/icons/downarrow.svg?react";
+import Spotify from "@/assets/icons/spotify.svg?react";
 
 type SongDetailProps = {
   songId: string;
+  currSong: SongInfo;
   onClose: () => void;
+  songSetter: (songInfo: Song | RelatedSong) => void;
 };
 
-const SongDetail = ({ songId, onClose }: SongDetailProps) => {
+const SongDetail = ({
+  songSetter,
+  currSong,
+  songId,
+  onClose,
+}: SongDetailProps) => {
   const { data: albumInfo } = useAlbumInfo(songId);
-  const albumUrl = "url";
+  const albumUrl = albumInfo?.album.albumSimple?.images[0] || NOIMAGE;
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
 
   const handleTrackSelection = (track: string) => {
@@ -24,6 +32,10 @@ const SongDetail = ({ songId, onClose }: SongDetailProps) => {
     } else {
       setSelectedTracks([...selectedTracks, track]);
     }
+  };
+
+  const handlePlayClick = (songInfo: Song | RelatedSong) => {
+    songSetter(songInfo);
   };
 
   const allTracks = [
@@ -40,39 +52,40 @@ const SongDetail = ({ songId, onClose }: SongDetailProps) => {
     { title: "Devil In A New Dress", artist: "Kanye West", cover: albumUrl },
   ];
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <Container>
+      {/*<BackgroundHalfCircle src={albumUrl} />*/}
       <Header>
         <DetailNav>
-          <BackButton onClick={onClose}>
-            <DownArrow />
-          </BackButton>
-          <NowPlaying>NOW PLAYING | </NowPlaying>
-          <TrackTitle>Devil In A New Dress</TrackTitle>
+          <DetailNavLeft>
+            <BackButton onClick={onClose}>
+              <DownArrow />
+            </BackButton>
+            <NowPlaying>NOW PLAYING | </NowPlaying>
+          </DetailNavLeft>
+          <TrackTitle>{currSong.name}</TrackTitle>
         </DetailNav>
         <AlbumCover
-          src={albumInfo.album.albumSimple?.images[0] || NOIMAGE}
+          src={albumInfo?.album.albumSimple?.images[0] || NOIMAGE}
           alt="Album Cover"
         />
-        <TrackTitle>Devil In A New Dress</TrackTitle>
-        <Artist>Kanye West</Artist>
+        <TrackTitle>{currSong.name}</TrackTitle>
+        <Artist>
+          {currSong.artists.map((artist) => artist.artistName).join(", ")}
+        </Artist>
       </Header>
 
       <SpotifyButton>
-        <Spotify />
+        <a href={currSong.spotifyUrl} target="_blank">
+          <Spotify />
+        </a>
       </SpotifyButton>
 
       <InfoItem>
         <Label>발매일</Label>
-        <Value>2023.03.03</Value>
-      </InfoItem>
-      <InfoItem>
-        <Label>장르</Label>
-        <Value>POP</Value>
-      </InfoItem>
-      <InfoItem>
-        <Label>RYM 평점</Label>
-        <Value>3.78 / 5.0</Value>
+        <Value>{currSong.album?.releaseDate}</Value>
       </InfoItem>
 
       <InfoItem>
@@ -83,15 +96,15 @@ const SongDetail = ({ songId, onClose }: SongDetailProps) => {
         </button>
       </InfoItem>
       <TrackList>
-        {allTracks.map((track, index) => (
+        {albumInfo?.album?.songs.map((track, index) => (
           <Track key={index}>
             <input
               type="checkbox"
-              checked={selectedTracks.includes(track)}
-              onChange={() => handleTrackSelection(track)}
+              // checked={selectedTracks.includes(track.id)}
+              // onChange={() => handleTrackSelection(track.id)}
             />
-            <TrackName>{track}</TrackName>
-            <PlayButton>▶</PlayButton>
+            <TrackName>{track.name}</TrackName>
+            <PlayButton onClick={() => handlePlayClick(track)}>▶</PlayButton>
           </Track>
         ))}
       </TrackList>
@@ -100,13 +113,25 @@ const SongDetail = ({ songId, onClose }: SongDetailProps) => {
       </AddTrackButton>
       <SimilarAlbums>
         <ScrollMenu>
-          {similarAlbums.map((album, index) => (
-            <Album key={index}>
-              <AlbumCoverSmall src={album.cover} alt="Similar Album" />
-              <AlbumTitle>{album.title}</AlbumTitle>
-              <AlbumArtist>{album.artist}</AlbumArtist>
-            </Album>
-          ))}
+          {albumInfo?.relatedSongs?.slice(0, 3).map((album, index) =>
+            React.createElement(
+              "div",
+              {
+                itemId: album.id || index.toString(),
+                key: album.id || index.toString(),
+              },
+              <Album>
+                <AlbumCoverSmall
+                  src={album?.images[0] || NOIMAGE}
+                  alt="Similar Album"
+                />
+                <AlbumTitle>{album.name}</AlbumTitle>
+                <AlbumArtist>
+                  {album?.artists.map((artist) => artist.artistName).join(", ")}
+                </AlbumArtist>
+              </Album>,
+            ),
+          ) || []}
         </ScrollMenu>
       </SimilarAlbums>
     </Container>
@@ -120,10 +145,9 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100vh;
   background-color: #0d0d0f;
   color: white;
-  padding: 1rem;
+  padding: 2rem;
   z-index: 105;
 `;
 
@@ -137,12 +161,12 @@ const Header = styled.div`
 const DetailNav = styled.div`
   width: 100%;
   display: flex;
-  background: red;
+  margin-bottom: 3rem;
+  justify-content: center;
   align-items: center;
 `;
 
 const BackButton = styled.button`
-  align-self: flex-start;
   background: none;
   border: none;
   color: white;
@@ -152,8 +176,8 @@ const BackButton = styled.button`
 
 const NowPlaying = styled.div`
   margin-top: 1rem;
-  font-size: 1rem;
-  color: #a9abb8;
+  font-size: 1.8rem;
+  color: white;
 `;
 
 const TrackTitle = styled.h1`
@@ -168,8 +192,8 @@ const Artist = styled.p`
 `;
 
 const AlbumCover = styled.img`
-  width: 15rem;
-  height: 15rem;
+  width: 24rem;
+  height: 24rem;
   object-fit: cover;
   margin-bottom: 1rem;
 `;
@@ -251,17 +275,19 @@ const SimilarAlbums = styled.div`
 const Album = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+
+  margin-right: 3rem;
 `;
 
 const AlbumCoverSmall = styled.img`
-  width: 5rem;
-  height: 5rem;
+  width: 10rem;
+  height: 10rem;
   object-fit: cover;
   margin-bottom: 0.5rem;
 `;
 
 const AlbumTitle = styled.div`
+  margin-top: 1rem;
   font-size: 0.8rem;
   color: white;
 `;
@@ -269,4 +295,24 @@ const AlbumTitle = styled.div`
 const AlbumArtist = styled.div`
   font-size: 0.7rem;
   color: #a9abb8;
+`;
+
+const DetailNavLeft = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+`;
+
+const BackgroundHalfCircle = styled.img`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  clip-path: ellipse(50% 50% at 50% 0%);
+  z-index: 1;
 `;
