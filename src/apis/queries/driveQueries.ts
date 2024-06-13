@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import {
   useQuery,
   useMutation,
   useSuspenseQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { debounce } from "lodash";
 import {
   getRecommendations,
   getPrevTracks,
@@ -15,8 +17,21 @@ import {
   getSavedMusics,
   postSaveMusic,
   deleteDeleteMusic,
+  createPlayList,
+  getPlaylist,
+  patchCompletePlaylist,
+  patchUnCompletePlaylist,
+  getSearchData,
+  postAddMusicToPlaylist,
 } from "@/apis/driveApis/driveApis.ts";
-import { RecommendationRes } from "@/ssTypes/drive/driveTypes.ts";
+import { postSignUp } from "@/apis/userApis/userApis.ts";
+import ROUTES from "@/constants/routes.ts";
+import {
+  CreatePlayListReq,
+  RecommendationRes,
+} from "@/ssTypes/drive/driveTypes.ts";
+
+import { SignInParam } from "@/ssTypes/sign/external/signExternalTypes.ts";
 
 export const useRecommendations = (genreId: string[]) => {
   const { data: initialRecommendations } = useQuery({
@@ -120,7 +135,6 @@ export const useMusicDelete = (): {
     mutationFn: (musicId: string) => deleteDeleteMusic(musicId),
     onSuccess: (data, variables) => {
       toast.success("플레이리스트에서 삭제했습니다");
-      console.log(variables, "vvvv");
       queryClient.refetchQueries({
         queryKey: ["savedMusics"],
       });
@@ -135,5 +149,147 @@ export const useMusicDelete = (): {
 
   return {
     deleteMusic: mutate,
+  };
+};
+
+export const useCreatePlayList = (): {
+  createPlayList: (body: CreatePlayListReq) => void;
+} => {
+  const navigate = useNavigate();
+
+  const { data, mutate } = useMutation({
+    mutationFn: (body: CreatePlayListReq) => createPlayList(body),
+    onSuccess: (res) => {
+      toast.success("플레이리스트를 생성했습니다.");
+      if (res) {
+        navigate(`${ROUTES.playList}/${res?.id}`);
+      }
+    },
+    onError: () => {
+      toast.error("에러가 발생했습니다");
+    },
+  });
+
+  return {
+    createPlayList: mutate,
+  };
+};
+
+export const useGetPlayList = (id: string) => {
+  const { data } = useQuery({
+    queryKey: ["playList", id],
+    queryFn: () => getPlaylist(id),
+  });
+
+  return {
+    data,
+  };
+};
+
+export const useCompletePlaylist = (
+  id: string,
+): {
+  completePlaylist: () => void;
+} => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: () => patchCompletePlaylist(id),
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: ["playList", id],
+      });
+      toast.success("상태가 변경되었습니다");
+    },
+    onError: () => {
+      toast.error("에러가 발생했습니다");
+    },
+  });
+
+  return {
+    completePlaylist: mutate,
+  };
+};
+
+export const useUnCompletePlaylist = (
+  id: string,
+): {
+  unCompletePlaylist: () => void;
+} => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: () => patchUnCompletePlaylist(id),
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: ["playList", id],
+      });
+      toast.success("상태가 변경되었습니다");
+    },
+    onError: () => {
+      toast.error("에러가 발생했습니다");
+    },
+  });
+
+  return {
+    unCompletePlaylist: mutate,
+  };
+};
+
+export const useSearchData = ({ id, title }: { id: string; title: string }) => {
+  const [debouncedTitle, setDebouncedTitle] = useState(title);
+
+  useEffect(() => {
+    const handler = debounce(() => {
+      setDebouncedTitle(title);
+    }, 500);
+
+    handler();
+
+    return () => {
+      handler.cancel();
+    };
+  }, [title]);
+
+  const { data } = useQuery({
+    queryKey: ["searchData", id, debouncedTitle],
+    queryFn: () => getSearchData(debouncedTitle),
+    enabled: !!debouncedTitle,
+  });
+
+  return {
+    data,
+  };
+};
+
+interface AddMusicBody {
+  trackId: string;
+  imageUrl: string;
+}
+
+interface AddMusicParams {
+  id: string;
+  body: AddMusicBody;
+}
+
+export const useAddMusic = (id: string) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: ({ id, body }: AddMusicParams) =>
+      postAddMusicToPlaylist({ id, body }),
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: ["playList", id],
+      });
+      toast.success("추가되었습니다");
+    },
+    onError: () => {
+      toast.error("에러가 발생했습니다");
+    },
+  });
+
+  return {
+    addMusic: (params: AddMusicParams) => mutation.mutate(params),
   };
 };

@@ -100,3 +100,62 @@ export type SavedMusic = {
 };
 
 export type SavedMusicsRes = { savedMusics: SavedMusic[] };
+
+export type CreatePlayListReq = {
+  name: string;
+  genreIds: string[];
+};
+
+export type CreatePlayListRes = {
+  id: number;
+};
+
+export type PlaylistMusic = {
+  music: {
+    id: number;
+    trackId: string;
+    title: string;
+    artist: string;
+    imageUrl: string;
+  };
+  memo: string;
+};
+
+export type PlaylistRes = {
+  id: number;
+  name: string;
+  createdAt: string;
+  musicCount: number;
+  genreIds: number[];
+  playlistMusics: PlaylistMusic[];
+  complete: boolean;
+  deleted: boolean;
+};
+
+export type SearchReq = {
+  title: string;
+  limit: number;
+  offset: number;
+  type: "TRACK";
+};
+
+export type Track = {
+  id: string;
+  name: string;
+  previewUrl: string | null;
+  spotifyUrl: string;
+  durationMs: number;
+  album: Album;
+  artists: Artist[];
+};
+
+export type SearchRes = {
+  tracks: Track[];
+};
+
+export type AddMusicReq = {
+  trackId: "string";
+  title: "string";
+  artists: "string[]";
+  imageUrl: "string";
+};

@@ -1,14 +1,14 @@
 import clientInstance from "@/apis/client.ts";
 import {
   AlbumInfoResponse,
+  CreatePlayListReq,
+  CreatePlayListRes,
   IsMusicSavedRes,
+  PlaylistRes,
   RecommendationRes,
   SavedMusicsRes,
+  SearchRes,
 } from "@/ssTypes/drive/driveTypes.ts";
-import {
-  SignInParam,
-  SignUpRes,
-} from "@/ssTypes/sign/external/signExternalTypes.ts";
 
 export const getRecommendations = async (
   genreId: string[],
@@ -116,6 +116,58 @@ export const deleteDeleteMusic = async (
       musicId: musicId,
     },
   });
+
+  return data;
+};
+
+export const createPlayList = async (
+  body: CreatePlayListReq,
+): Promise<CreatePlayListRes> => {
+  const { data } = await clientInstance.post(`/playlist`, body);
+
+  return data;
+};
+
+export const getPlaylist = async (id: string): Promise<PlaylistRes> => {
+  const { data } = await clientInstance.get(`/playlist/${id}`);
+  return data;
+};
+
+export const patchCompletePlaylist = async (id: string) => {
+  const { data } = await clientInstance.patch(`/playlist/${id}/complete`);
+  return data;
+};
+
+export const patchUnCompletePlaylist = async (id: string) => {
+  const { data } = await clientInstance.patch(`/playlist/${id}/un-complete`);
+  return data;
+};
+
+export const getSearchData = async (title: string): Promise<SearchRes> => {
+  const { data } = await clientInstance.get(`/spotify/search`, {
+    params: {
+      title: title,
+      limit: 7,
+      offset: 1,
+      type: "TRACK",
+    },
+  });
+  return data;
+};
+
+interface AddMusicToPlaylistBody {
+  trackId: string;
+  imageUrl: string;
+}
+
+export const postAddMusicToPlaylist = async ({
+  id,
+  body,
+}: {
+  id: string;
+  body: AddMusicToPlaylistBody;
+}) => {
+  const { data } = await clientInstance.post(`/playlist/${id}/add/music`, body);
 
   return data;
 };

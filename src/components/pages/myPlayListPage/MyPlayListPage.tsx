@@ -1,9 +1,6 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import { useUserInfo } from "@/apis/queries/userQueries.ts";
 import DriveNav from "@/components/_common/driveNav/DriveNav.tsx";
-import MyPlayListBelow from "@/components/myPlayListBelow/MyPlayListBelow.tsx";
 import MyPlayListDetailTab from "@/components/myPlayListDetailTab/MyPlayListDetailTab.tsx";
 
 const MyPlayListPage = () => {

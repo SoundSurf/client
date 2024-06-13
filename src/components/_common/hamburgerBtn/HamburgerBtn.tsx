@@ -16,7 +16,7 @@ const StyledHamburgerIcon = styled(Hamburger)<{
 const Menu = styled.div<{ visible: boolean }>`
   display: ${({ visible }) => (visible ? "block" : "none")};
   position: absolute;
-  top: 90%;
+  top: 120%;
   right: 30%;
   width: 13.8rem;
   color: ${({ theme }) => theme.colors.grayScale1};
@@ -84,18 +84,15 @@ const HamburgerBtn = ({ width, height, color }: HamburgerBtnProps) => {
       </a>
       <Menu visible={menuVisible}>
         <ul>
-          <li>
+          <PopupLi>
             <a href="/">Drive</a>
-          </li>
-          <li>
+          </PopupLi>
+          <PopupLi>
             <a href="/myPlayList">My Playlist</a>
-          </li>
-          <li>
-            <a href="/settings">Settings</a>
-          </li>
-          <li>
+          </PopupLi>
+          <PopupLi>
             <button onClick={logout}>Logout</button>
-          </li>
+          </PopupLi>
         </ul>
       </Menu>
     </div>
@@ -103,3 +100,7 @@ const HamburgerBtn = ({ width, height, color }: HamburgerBtnProps) => {
 };
 
 export default HamburgerBtn;
+
+const PopupLi = styled.li`
+  font-weight: 600;
+`;

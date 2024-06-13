@@ -24,7 +24,12 @@ const Title = styled.h1`
 const AuthTopNav = () => {
   const location = useLocation();
 
-  const headerText = location.pathname === ROUTES.login ? "LOGIN" : "회원가입";
+  const headerText =
+    location.pathname === ROUTES.login
+      ? "LOGIN"
+      : location.pathname === ROUTES.signup
+        ? "회원가입"
+        : "플레이리스트 만들기";
 
   return (
     <>

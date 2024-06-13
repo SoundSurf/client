@@ -3,7 +3,7 @@ import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import styled from "styled-components";
 import Check from "@/assets/icons/white_check_icon.svg?react";
 import "react-horizontal-scrolling-menu/dist/styles.css";
-import { useAlbumInfo } from "@/apis/queries/driveQueries.ts";
+import { useAlbumInfo, useMusicSave } from "@/apis/queries/driveQueries.ts";
 import { NOIMAGE } from "@/constants/etc.ts";
 import { RelatedSong, Song, SongInfo } from "@/ssTypes/drive/driveTypes.ts";
 import DownArrow from "@/assets/icons/downarrow.svg?react";
@@ -23,8 +23,10 @@ const SongDetail = ({
   onClose,
 }: SongDetailProps) => {
   const { data: albumInfo } = useAlbumInfo(songId);
-  const albumUrl = albumInfo?.album.albumSimple?.images[0] || NOIMAGE;
+
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
+
+  const { saveMusic } = useMusicSave();
 
   const handleTrackSelection = (track: string) => {
     if (selectedTracks.includes(track)) {
@@ -38,9 +40,21 @@ const SongDetail = ({
     songSetter(songInfo);
   };
 
+  const handleAllSelect = () => {
+    if (albumInfo) {
+      const data = albumInfo.relatedSongs.slice(0, 2).map((song) => song.id);
+      setSelectedTracks(data);
+    }
+  };
+
+  const handleSaveButton = () => {
+    if (selectedTracks.length) {
+      saveMusic(selectedTracks);
+    }
+  };
+
   return (
     <Container>
-      {/*<BackgroundHalfCircle src={albumUrl} />*/}
       <Header>
         <DetailNav>
           <DetailNavLeft>
@@ -82,7 +96,7 @@ const SongDetail = ({
 
       <InfoItem>
         <Label>수록곡</Label>
-        <button onClick={() => setSelectedTracks(allTracks)}>
+        <button onClick={handleAllSelect}>
           <Check />
           <Value>전체 선택</Value>
         </button>
@@ -92,15 +106,18 @@ const SongDetail = ({
           <Track key={index}>
             <input
               type="checkbox"
-              // checked={selectedTracks.includes(track.id)}
-              // onChange={() => handleTrackSelection(track.id)}
+              checked={selectedTracks?.includes(track.id)}
+              onChange={() => handleTrackSelection(track.id)}
             />
             <TrackName>{track.name}</TrackName>
             <PlayButton onClick={() => handlePlayClick(track)}>▶</PlayButton>
           </Track>
         ))}
       </TrackList>
-      <AddTrackButton disabled={selectedTracks.length === 0}>
+      <AddTrackButton
+        onClick={handleSaveButton}
+        disabled={selectedTracks?.length === 0}
+      >
         선택 곡 추가
       </AddTrackButton>
       <SimilarAlbums>
@@ -297,18 +314,4 @@ const DetailNav = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 3rem;
-`;
-
-const BackgroundHalfCircle = styled.img`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 50%;
-  background-image: url(${(props) => props.src});
-  background-size: cover;
-  background-position: center;
-  filter: blur(8px);
-  -webkit-filter: blur(8px);
-  clip-path: ellipse(50% 50% at 50% 0%);
-  z-index: 1;
 `;
