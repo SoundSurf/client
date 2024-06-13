@@ -25,7 +25,7 @@ export const AuthBorder = styled.hr`
   height: 0.2rem;
   margin-top: 3.2rem;
 
-  background-color: ${({ theme }) => theme.colors.purpleDarkest};
+  background-color: ${({ theme }) => theme.colors.grayScale8};
   border: none;
 `;
 

@@ -11,7 +11,7 @@ const MyPlayListBelow = () => {
 
   return (
     <EntireWrapper>
-      <Title>재생 목록</Title>
+      <Title>저장된 노래</Title>
       <MusicList>
         {savedMusics &&
           savedMusics.savedMusics.map((music) => {
@@ -48,6 +48,7 @@ const EntireWrapper = styled.div`
 const Title = styled.h2`
   font-size: 1.8rem;
   font-weight: bold;
+  margin-top: 2rem;
   margin-bottom: 2.4rem;
 `;
 
@@ -89,6 +90,7 @@ const MusicTitle = styled.h3`
 const ArtistName = styled.p`
   font-size: 1.2rem;
   color: #858899;
+  margin-bottom: 5rem;
 `;
 
 const SpotifyIcon = styled(Spotify)`

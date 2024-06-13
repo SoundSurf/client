@@ -20,12 +20,13 @@ export const EntireLayout = styled.div`
 export const MainLayout = styled.div`
   display: flex;
   flex: 1;
-  align-items: center;
+  //align-items: center;
   justify-content: center;
 
   box-sizing: border-box;
   width: 25%;
   max-width: 430px;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
 

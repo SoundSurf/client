@@ -27,8 +27,13 @@ const MyPlayListPage = () => {
               })}
             </UserGenres>
             <UserSongDetail>
-              총 {userInfo.savedMusicCount}곡 · {userInfo.playListCount}개의
-              플레이리스트
+              <UserSongDetailSection>
+                총 {userInfo.savedMusicCount}곡
+              </UserSongDetailSection>{" "}
+              ·{" "}
+              <UserSongDetailSection>
+                {userInfo.playListCount}개의 플레이리스트
+              </UserSongDetailSection>
             </UserSongDetail>
           </UserInfoContents>
         </UserInfoWrapper>
@@ -118,7 +123,13 @@ const UserGenres = styled.ul`
   margin-bottom: 1.6rem;
 `;
 
-const UserSongDetail = styled.p`
+const UserSongDetail = styled.div`
+  display: flex;
+  justify-content: center;
   font-size: 1.2rem;
   margin-bottom: 3.2rem;
+`;
+
+const UserSongDetailSection = styled.p`
+  margin: 0 1rem;
 `;

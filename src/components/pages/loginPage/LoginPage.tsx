@@ -5,6 +5,7 @@ import { USER_REGEX } from "@/constants/regex.ts";
 import ROUTES from "@/constants/routes.ts";
 import { SignInData } from "@/ssTypes/sign/internal/signInternalTypes.ts";
 import * as S from "./LoginPage.styles.ts";
+import Logo from "@/assets/logo.svg?react";
 
 const LoginPage = () => {
   const TEXTS = {
@@ -37,7 +38,7 @@ const LoginPage = () => {
 
   return (
     <S.LoginPageWrapper>
-      <S.LoginPic>main</S.LoginPic>
+      <S.LoginPic src={"./assets/logo.png"} />
 
       <div>
         <form onSubmit={onSubmit}>
@@ -71,7 +72,6 @@ const LoginPage = () => {
           <S.AuthInputErrorText>
             {errors.password ? errors.password.message : "\u00A0"}
           </S.AuthInputErrorText>
-          <S.ForgotPasswordText>{TEXTS.forgotPassword}</S.ForgotPasswordText>
 
           <S.LoginBtn type="submit" disabled={!isValid}>
             {TEXTS.loginBtn}

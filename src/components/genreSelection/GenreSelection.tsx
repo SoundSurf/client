@@ -155,19 +155,19 @@ const GenreEl = styled.li<{ isSelected: boolean }>`
   margin-bottom: 0.8rem;
   cursor: pointer;
   border: ${({ isSelected }) => (isSelected ? "2px solid #a40bcb" : "none")};
-  box-shadow: ${({ isSelected }) => (isSelected ? "0 0 10px #a40bcb" : "none")};
 `;
 
 const SelectBoxWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 3rem 0 0 0;
+  padding: 3rem 0 22rem 0;
   position: absolute;
   bottom: -15rem;
   height: 16rem;
   width: 100vw;
   background: rgba(13, 13, 15, 0.9);
-  box-shadow: 0 -4px 8px rgba(13, 13, 15, 0.8);
+  box-shadow: 0 -2px 4px rgba(13, 13, 15, 0.8);
+  border-top: 0.5px solid ${({ theme }) => theme.colors.grayScale9};
 `;
 
 const SelectButton = styled.button`
@@ -176,4 +176,5 @@ const SelectButton = styled.button`
   height: 5.4rem;
   background: #a40bcb;
   border-radius: 0.8rem;
+  margin-bottom: 3rem;
 `;

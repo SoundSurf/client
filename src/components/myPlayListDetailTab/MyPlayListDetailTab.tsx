@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
+import PlayListPlayListSection from "@/components/playListPlayListSection/PlayListPlayListSection.tsx";
 import PlayListSongSection from "@/components/playListSongSection/PlayListSongSection.tsx";
 
 const MyPlayListDetailTab = () => {
@@ -34,13 +35,7 @@ const MyPlayListDetailTab = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <PlaylistContent>
-              <SectionTitle>플레이리스트</SectionTitle>
-              <PlaylistList>
-                <PlaylistCard>플레이리스트 1</PlaylistCard>
-                <PlaylistCard>플레이리스트 2</PlaylistCard>
-              </PlaylistList>
-            </PlaylistContent>
+            <PlayListPlayListSection />
           </motion.div>
         )}
       </AnimatePresence>
@@ -69,7 +64,7 @@ const TabButton = styled.button<{ isActive: boolean }>`
       ? children === "노래"
         ? "10px 10px 10px 10px"
         : "10px 10px 10px 10px"
-      : "0"};
+      : "10px 10px 10px 10px"};
   padding: 0.8rem 2rem;
   margin: 0;
   cursor: pointer;

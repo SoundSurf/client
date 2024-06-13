@@ -1,17 +1,18 @@
 import styled from "styled-components";
+import Logo from "@/assets/logo.svg?react";
 
 export const LoginPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 90vh;
 `;
 
-export const LoginPic = styled.div`
+export const LoginPic = styled(Logo)`
   width: 25.6rem;
   height: 14.7rem;
   margin-bottom: 5.2rem;
-  background: ${({ theme }) => theme.colors.grayScale4};
 `;
 
 export const LoginMainText = styled.h1`
@@ -69,6 +70,7 @@ export const LoginBtn = styled.button`
 
   cursor: pointer;
 
+  margin-top: 10rem;
   margin-bottom: 2rem;
   &:disabled {
     cursor: not-allowed;
@@ -93,6 +95,6 @@ export const AuthInputErrorText = styled.span`
   ${({ theme }) => theme.fonts.sub_12px_regular};
   display: block;
   color: ${({ theme }) => theme.colors.alertRed};
-  margin: 0.4rem 0;
+  margin: 1.3rem 0;
   height: 1.2rem;
 `;

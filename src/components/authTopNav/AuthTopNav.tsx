@@ -11,7 +11,7 @@ const Nav = styled.nav`
   width: 100%;
   padding: 2.4rem 3.1rem 2rem 3.1rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayScale9};
-  margin-bottom: 8rem;
+  margin-bottom: -2rem;
 `;
 
 const Title = styled.h1`

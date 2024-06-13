@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useRecommendations } from "@/apis/queries/driveQueries.ts";
 import InstantMusicPlayer from "@/components/instantMusicPlayer/instantMusicPlayer.tsx";
 import MyPlayListBelow from "@/components/myPlayListBelow/MyPlayListBelow.tsx";
+import { AuthBorder } from "@/components/pages/signupPage/SignupPage.styles.ts";
 import { NOIMAGE } from "@/constants/etc.ts";
 
 const PlayListSongSection = () => {
@@ -88,6 +89,7 @@ const PlayListSongSection = () => {
           </SongList>
         </SongContent>
       </motion.div>
+      <AuthBorder />
       <MyPlayListBelow />
     </>
   );
@@ -103,7 +105,7 @@ const SongList = styled.div`
 `;
 
 const SectionTitle = styled.h3`
-  margin: 1rem 0;
+  margin: 2rem 0;
   font-size: 1.8rem;
   font-weight: bold;
   max-width: 250px;
@@ -113,7 +115,6 @@ const SectionTitle = styled.h3`
 `;
 
 const SongCard = styled.div`
-  border-radius: 10px;
   overflow: hidden;
   width: 15rem;
   text-align: center;
@@ -121,11 +122,13 @@ const SongCard = styled.div`
   img {
     width: 100%;
     height: auto;
+    border-radius: 10px !important;
   }
 `;
 
 const SongInfo = styled.div`
   padding: 0.5rem;
+  text-align: start;
 `;
 
 const SongName = styled.p`
@@ -140,6 +143,9 @@ const SongName = styled.p`
 const SongArtist = styled.p`
   margin: 0;
   color: #ccc;
+  max-width: 100px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const MusicImageWrapper = styled.div`

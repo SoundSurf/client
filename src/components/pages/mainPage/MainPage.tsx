@@ -181,10 +181,7 @@ const MainPage = () => {
               style={{ transform: "rotate(15deg)", right: "-90px" }}
             />
           </AlbumWrapper>
-          <ButtonWrapper>
-            <NavButton onClick={handlePrev}>◀</NavButton>
-            <NavButton onClick={handleNext}>▶</NavButton>
-          </ButtonWrapper>
+
           <MusicPlayer songInfo={currSong} onNext={getNextTracks} />
           <NowPlaying
             initial={{ y: "100%" }}
@@ -201,7 +198,7 @@ const MainPage = () => {
           >
             <NowPlayingHeader>
               <DetailLeft onClick={handleDetailToggle}>
-                <UpperArrow />
+                <UpperArrowIcon />
                 <NowPlayingTitle>NOW PLAYING</NowPlayingTitle>
               </DetailLeft>
               <MoreInfoLink onClick={handleDetailToggle}>
@@ -305,14 +302,14 @@ export const TopBar = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  padding: 1rem 0;
-  margin: 1rem 0 1rem 0;
+  padding: 1rem 1rem;
+  margin: 1rem 1rem 1rem 1rem;
   z-index: 2;
   height: 10rem;
 
   @media (max-width: 768px) {
-    padding: 0.5rem 0;
-    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 1rem;
   }
 `;
 
@@ -483,14 +480,14 @@ export const NavButton = styled.button`
 export const NowPlaying = styled(motion.div)`
   width: 100%;
   height: 59.6rem;
-  background-color: #1d1e24;
+  background-color: #0d0d0f;
   padding: 1rem;
   border-radius: 10px;
   margin-top: 2rem;
   z-index: 2;
 
   @media (max-width: 768px) {
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem 7.4rem 0.5rem;
     margin-top: 1rem;
   }
 `;
@@ -596,4 +593,8 @@ export const DetailArtist = styled(TrackArtist)`
   @media (max-width: 768px) {
     font-size: 1.2rem;
   }
+`;
+
+export const UpperArrowIcon = styled(UpperArrow)`
+  margin-right: 1rem;
 `;

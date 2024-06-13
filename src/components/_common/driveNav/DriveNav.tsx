@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import HamburgerBtn from "@/components/_common/hamburgerBtn/HamburgerBtn.tsx";
 import Search from "@/assets/icons/search.svg?react";
+import Logo from "@/assets/logo.svg?react";
 
 const DriveNavWrapper = styled.nav`
   width: 100%;
@@ -18,10 +19,15 @@ const NavRight = styled.div`
   width: 20%;
 `;
 
+const NavLogo = styled(Logo)`
+  width: 8.5rem;
+  height: 2.4rem;
+`;
+
 const DriveNav = () => {
   return (
     <DriveNavWrapper>
-      <div>logo</div>
+      <NavLogo />
       <NavRight>
         <Search />
         <HamburgerBtn />
