@@ -23,6 +23,7 @@ import {
   patchUnCompletePlaylist,
   getSearchData,
   postAddMusicToPlaylist,
+  getEntirePlaylist,
 } from "@/apis/driveApis/driveApis.ts";
 import { postSignUp } from "@/apis/userApis/userApis.ts";
 import ROUTES from "@/constants/routes.ts";
@@ -291,5 +292,16 @@ export const useAddMusic = (id: string) => {
 
   return {
     addMusic: (params: AddMusicParams) => mutation.mutate(params),
+  };
+};
+
+export const useGetEntirePlayList = () => {
+  const { data } = useQuery({
+    queryKey: ["entirePlayList"],
+    queryFn: () => getEntirePlaylist(),
+  });
+
+  return {
+    data,
   };
 };

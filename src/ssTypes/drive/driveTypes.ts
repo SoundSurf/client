@@ -159,3 +159,15 @@ export type AddMusicReq = {
   artists: "string[]";
   imageUrl: "string";
 };
+
+export type PlayListInfo = {
+  id: number;
+  name: string;
+  created: Date;
+  musicCount: number;
+};
+
+export type PlayListRes = {
+  completed: PlayListInfo[];
+  unCompleted: PlayListInfo[];
+};

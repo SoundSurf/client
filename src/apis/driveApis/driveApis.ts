@@ -4,6 +4,7 @@ import {
   CreatePlayListReq,
   CreatePlayListRes,
   IsMusicSavedRes,
+  PlayListRes,
   PlaylistRes,
   RecommendationRes,
   SavedMusicsRes,
@@ -169,5 +170,10 @@ export const postAddMusicToPlaylist = async ({
 }) => {
   const { data } = await clientInstance.post(`/playlist/${id}/add/music`, body);
 
+  return data;
+};
+
+export const getEntirePlaylist = async (): Promise<PlayListRes> => {
+  const { data } = await clientInstance.get(`/playlist`);
   return data;
 };
