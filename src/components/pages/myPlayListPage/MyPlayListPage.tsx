@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
-import { useRecommendations } from "@/apis/queries/driveQueries.ts";
 import { useUserInfo } from "@/apis/queries/userQueries.ts";
 import DriveNav from "@/components/_common/driveNav/DriveNav.tsx";
+import MyPlayListBelow from "@/components/myPlayListBelow/MyPlayListBelow.tsx";
 import MyPlayListDetailTab from "@/components/myPlayListDetailTab/MyPlayListDetailTab.tsx";
 
 const MyPlayListPage = () => {
@@ -22,14 +22,17 @@ const MyPlayListPage = () => {
           <UserInfoContents>
             <UserNickName>{userInfo.nickname || "닉네임"}</UserNickName>
             <UserGenres>
-              <GenreButton>1970S</GenreButton>
-              <GenreButton>Singer-songwriter</GenreButton>
-              <GenreButton>EDM</GenreButton>
+              {userInfo.genres.map((genreId) => {
+                return <GenreButton>{genreId}</GenreButton>;
+              })}
             </UserGenres>
-            <UserSongDetail>총 125곡 · 2개의 플레이리스트</UserSongDetail>
+            <UserSongDetail>
+              총 {userInfo.savedMusicCount}곡 · {userInfo.playListCount}개의
+              플레이리스트
+            </UserSongDetail>
           </UserInfoContents>
         </UserInfoWrapper>
-        {/*상단 노래*/}
+        {/*상단 정보*/}
         <MyPlayListDetailTab />
       </ContentWrapper>
     </MainWrapper>

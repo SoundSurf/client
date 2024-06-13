@@ -9,7 +9,7 @@ export type Album = {
   id: string;
   releaseDate: string;
   spotifyUrl: string;
-  genres: string;
+  genres: string[];
   rating: string;
   albumType: string;
   artists: Artist[];
@@ -79,5 +79,24 @@ export type AlbumInfoResponse = {
 
 export type IsMusicSavedRes = {
   count: number;
-  saved: boolean
-}
+  saved: boolean;
+};
+
+export type SavedMusic = {
+  id: string;
+  title: string;
+  artist: {
+    spotifyUrl: string;
+    artistName: string;
+    id: string;
+  };
+  album: {
+    albumName: string;
+    images: string[];
+  };
+  trackId: string;
+  previewUrl: string;
+  spotifyUrl: string;
+};
+
+export type SavedMusicsRes = { savedMusics: SavedMusic[] };

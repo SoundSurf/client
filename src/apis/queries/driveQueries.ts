@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
-import { useQuery, useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import {
+  useQuery,
+  useMutation,
+  useSuspenseQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   getRecommendations,
   getPrevTracks,
   getNextTracks,
   getAlbumInfo,
   getIsMusicSaved,
+  getSavedMusics,
+  postSaveMusic,
+  deleteDeleteMusic,
 } from "@/apis/driveApis/driveApis.ts";
 import { RecommendationRes } from "@/ssTypes/drive/driveTypes.ts";
 
@@ -64,5 +73,67 @@ export const useIsMusicSaved = (musicId: string) => {
 
   return {
     data,
+  };
+};
+
+export const useSavedMusics = () => {
+  const { data } = useQuery({
+    queryKey: ["savedMusics"],
+    queryFn: () => getSavedMusics(),
+  });
+
+  return {
+    data,
+  };
+};
+
+export const useMusicSave = (): { saveMusic: (musicIds: string[]) => void } => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (musicIds: string[]) => postSaveMusic(musicIds),
+    onSuccess: (data, variables) => {
+      toast.success("플레이리스트에 저장했습니다");
+
+      variables.forEach(async (musicId) => {
+        await queryClient.refetchQueries({
+          queryKey: ["isMusicSaved", musicId],
+        });
+      });
+    },
+    onError: () => {
+      toast.error("에러가 발생했습니다");
+    },
+  });
+
+  return {
+    saveMusic: mutate,
+  };
+};
+
+export const useMusicDelete = (): {
+  deleteMusic: (musicId: string) => void;
+} => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (musicId: string) => deleteDeleteMusic(musicId),
+    onSuccess: (data, variables) => {
+      toast.success("플레이리스트에서 삭제했습니다");
+      console.log(variables, "vvvv");
+      queryClient.refetchQueries({
+        queryKey: ["savedMusics"],
+      });
+      queryClient.refetchQueries({
+        queryKey: ["isMusicSaved", variables],
+      });
+    },
+    onError: () => {
+      toast.error("에러가 발생했습니다");
+    },
+  });
+
+  return {
+    deleteMusic: mutate,
   };
 };

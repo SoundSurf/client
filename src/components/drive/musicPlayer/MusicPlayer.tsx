@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { useIsMusicSaved } from "@/apis/queries/driveQueries.ts";
+import { useIsMusicSaved, useMusicSave } from "@/apis/queries/driveQueries.ts";
 import { RelatedSong, Song } from "@/ssTypes/drive/driveTypes.ts";
 import Play from "@/assets/icons/playbutton_play.svg?react";
 import Stop from "@/assets/icons/playbutton_stop.svg?react";
@@ -20,8 +20,9 @@ const MusicPlayer = ({ songInfo, onNext }: MusicPlayerProps) => {
   const progressBarRef = useRef<HTMLDivElement>(null);
 
   const { data: musicSaveData } = useIsMusicSaved(songInfo?.id);
+  const { saveMusic } = useMusicSave();
 
-  const { previewUrl: songUrl, spotifyUrl } = songInfo;
+  const { previewUrl: songUrl, spotifyUrl, id } = songInfo;
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -129,6 +130,10 @@ const MusicPlayer = ({ songInfo, onNext }: MusicPlayerProps) => {
     document.addEventListener("touchend", handleTouchEnd);
   };
 
+  const handleMusicSave = () => {
+    saveMusic([id]);
+  };
+
   return (
     <PlayerContainer>
       <audio ref={audioRef} src={songUrl}></audio>
@@ -151,7 +156,7 @@ const MusicPlayer = ({ songInfo, onNext }: MusicPlayerProps) => {
 
         <CircleButton>
           <SavedCnt>{musicSaveData?.count}</SavedCnt>
-          <PurplePlus />
+          <PurplePlus onClick={handleMusicSave} />
         </CircleButton>
       </ControlPannel>
     </PlayerContainer>

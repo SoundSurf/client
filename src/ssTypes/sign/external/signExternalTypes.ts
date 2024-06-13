@@ -10,9 +10,11 @@ export type SignUpRes = {
 export type UserInfoRes = {
   userId: number;
   userEmail: string;
-  nickname: boolean;
+  nickname: string | null;
   genres: string[];
   newUser: boolean;
   carId: number;
   imageBucketPath: string;
+  savedMusicCount: number;
+  playListCount: number;
 };

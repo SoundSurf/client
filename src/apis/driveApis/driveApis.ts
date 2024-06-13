@@ -3,7 +3,12 @@ import {
   AlbumInfoResponse,
   IsMusicSavedRes,
   RecommendationRes,
+  SavedMusicsRes,
 } from "@/ssTypes/drive/driveTypes.ts";
+import {
+  SignInParam,
+  SignUpRes,
+} from "@/ssTypes/sign/external/signExternalTypes.ts";
 
 export const getRecommendations = async (
   genreId: string[],
@@ -81,5 +86,36 @@ export const getIsMusicSaved = async (
       musicId: musicId,
     },
   });
+  return data;
+};
+
+export const getSavedMusics = async (): Promise<SavedMusicsRes> => {
+  const { data } = await clientInstance.get("/profile/list/saved-musics");
+  return data;
+};
+
+export const postSaveMusic = async (
+  musicIds: string[],
+): Promise<SavedMusicsRes> => {
+  const queryString = musicIds
+    .map((id) => `musicIds=${encodeURIComponent(id)}`)
+    .join("&");
+
+  const { data } = await clientInstance.post(
+    `/profile/music/save?${queryString}`,
+  );
+
+  return data;
+};
+
+export const deleteDeleteMusic = async (
+  musicId: string,
+): Promise<SavedMusicsRes> => {
+  const { data } = await clientInstance.delete(`/profile/music/unsave`, {
+    params: {
+      musicId: musicId,
+    },
+  });
+
   return data;
 };
