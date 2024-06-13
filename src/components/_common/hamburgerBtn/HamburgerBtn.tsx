@@ -85,10 +85,10 @@ const HamburgerBtn = ({ width, height, color }: HamburgerBtnProps) => {
       <Menu visible={menuVisible}>
         <ul>
           <li>
-            <a href="/drive">Drive</a>
+            <a href="/">Drive</a>
           </li>
           <li>
-            <a href="/my-playlist">My Playlist</a>
+            <a href="/myPlayList">My Playlist</a>
           </li>
           <li>
             <a href="/settings">Settings</a>

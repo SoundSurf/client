@@ -7,6 +7,7 @@ import TopLayout from "@/components/_common/layoutComponents/topLayout/TopLayout
 import AuthTopNav from "@/components/authTopNav/AuthTopNav.tsx";
 import LoginPage from "@/components/pages/loginPage/LoginPage.tsx";
 import MainPage from "@/components/pages/mainPage/MainPage.tsx";
+import MyPlayListPage from "@/components/pages/myPlayListPage/MyPlayListPage.tsx";
 import SignupPage from "@/components/pages/signupPage/SignupPage.tsx";
 import ROUTES from "@/constants/routes.ts";
 import GlobalStyle from "@/styles/GlobalStyle.tsx";
@@ -28,6 +29,7 @@ const App = () => {
                   </AuthGuard>
                 }
               />
+              <Route path={ROUTES.myPlayList} element={<MyPlayListPage />} />
               <Route path="/" element={<AuthTopNav />}>
                 <Route path={ROUTES.login} element={<LoginPage />} />
                 <Route path={ROUTES.signup} element={<SignupPage />} />

@@ -6,10 +6,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import styled from "styled-components";
-import {
-  useIsMusicSaved,
-  useRecommendations,
-} from "@/apis/queries/driveQueries.ts";
+import { useRecommendations } from "@/apis/queries/driveQueries.ts";
 import DriveNav from "@/components/_common/driveNav/DriveNav.tsx";
 import MusicPlayer from "@/components/drive/musicPlayer/MusicPlayer.tsx";
 import GenreSelection from "@/components/genreSelection/GenreSelection.tsx";
@@ -28,8 +25,6 @@ const MainPage = () => {
 
   const { recommendations, getPrevTracks, getNextTracks } =
     useRecommendations(genres);
-
-  // const { data: musicSaveData } = useIsMusicSaved(currSong?.id);
 
   const controls = useAnimation();
   const dragControls = useDragControls();

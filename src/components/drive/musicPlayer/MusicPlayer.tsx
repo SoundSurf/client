@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import { useIsMusicSaved } from "@/apis/queries/driveQueries.ts";
 import { RelatedSong, Song } from "@/ssTypes/drive/driveTypes.ts";
 import Play from "@/assets/icons/playbutton_play.svg?react";
 import Stop from "@/assets/icons/playbutton_stop.svg?react";
@@ -17,6 +18,8 @@ const MusicPlayer = ({ songInfo, onNext }: MusicPlayerProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+
+  const { data: musicSaveData } = useIsMusicSaved(songInfo?.id);
 
   const { previewUrl: songUrl, spotifyUrl } = songInfo;
 
@@ -147,7 +150,7 @@ const MusicPlayer = ({ songInfo, onNext }: MusicPlayerProps) => {
         </button>
 
         <CircleButton>
-          <SavedCnt>30</SavedCnt>
+          <SavedCnt>{musicSaveData?.count}</SavedCnt>
           <PurplePlus />
         </CircleButton>
       </ControlPannel>

@@ -1,7 +1,11 @@
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { postSignIn, postSignUp } from "@/apis/userApis/userApis.ts";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  getUserInfo,
+  postSignIn,
+  postSignUp,
+} from "@/apis/userApis/userApis.ts";
 import ROUTES from "@/constants/routes.ts";
 import { SignInParam } from "@/ssTypes/sign/external/signExternalTypes.ts";
 import useUserStore from "@/store/useUserStore.ts";
@@ -60,4 +64,15 @@ export const useLogout = () => {
   };
 
   return { logout };
+};
+
+export const useUserInfo = () => {
+  const { data } = useSuspenseQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getUserInfo(),
+  });
+
+  return {
+    data,
+  };
 };
